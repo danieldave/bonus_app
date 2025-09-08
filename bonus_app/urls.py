@@ -24,7 +24,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.home, name="home"),        # homepage
     path("", include("bonuses.urls")),  # remove "dashboard/"
-
+    path("accounts/", include("django.contrib.auth.urls")),  # login/logout
+    path("register/", views.register, name="register"),
 ]
-
 
