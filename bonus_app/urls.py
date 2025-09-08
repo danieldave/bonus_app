@@ -22,9 +22,8 @@ from .views import dashboard
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.home, name="home"),        # homepage
-    path("dashboard/", include("bonuses.urls")),
+    path("", include("bonuses.urls")),  # remove "dashboard/"
 
 ]
-
 
 
