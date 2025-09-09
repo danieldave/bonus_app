@@ -16,15 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from bonuses import views   # 👈 this was missing
-
-
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", views.home, name="home"),        # homepage
-    path("", include("bonuses.urls")),  # remove "dashboard/"
+    path("", include("bonuses.urls")),   # 👈 app handles its own urls
     path("accounts/", include("django.contrib.auth.urls")),  # login/logout
-    path("register/", views.register, name="register"),
 ]
-
