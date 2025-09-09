@@ -1,7 +1,9 @@
 {
   "build": {
-    "commands": [
-      "python manage.py migrate --noinput"
-    ]
+    "builder": "heroku/buildpacks:20"
+  },
+  "deploy": {
+    "startCommand": "gunicorn bonus_app.wsgi",
+    "releaseCommand": "python manage.py migrate --noinput"
   }
 }
