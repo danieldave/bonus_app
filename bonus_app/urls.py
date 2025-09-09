@@ -21,4 +21,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("bonuses.urls")),   # 👈 app handles its own urls
     path("accounts/", include("django.contrib.auth.urls")),  # login/logout
+    path("bonuses/", include("bonuses.urls")),
 ]
+

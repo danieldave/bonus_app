@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Bonus Assignment History</h2>
+  <table border="1">
+    <tr>
+      <th>User</th>
+      <th>Amount</th>
+      <th>Reason</th>
+      <th>Status</th>
+      <th>Assigned At</th>
+    </tr>
+    {% for bonus in bonuses %}
+    <tr>
+      <td>{{ bonus.user.username }}</td>
+      <td>{{ bonus.amount }}</td>
+      <td>{{ bonus.reason }}</td>
+      <td>{{ bonus.status }}</td>
+      <td>{{ bonus.created_at }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="5">No bonuses assigned yet.</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
