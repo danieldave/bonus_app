@@ -59,3 +59,10 @@ def user_dashboard(request):
     return render(request, "bonuses/user_dashboard.html", {"bonuses": bonuses})
 
 
+@login_required
+def dashboard(request):
+    # calculate bonus balance here
+    bonus_balance = request.user.bonuses.aggregate(total=models.Sum('amount'))['total'] or 0
+    return render(request, 'bonuses/dashboard.html', {
+        'bonus_balance': bonus_balance
+    })  
