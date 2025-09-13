@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
 from .forms import BonusAssignForm
 from .models import Bonus
+from .forms import BonusForm
 
 def home(request):
     return render(request, "home.html")
@@ -29,24 +30,32 @@ def register(request):
     return render(request, "register.html", {"form": form})
 
 
-
-# only allow staff/admins
+# Helper to restrict access
 def is_admin(user):
     return user.is_staff or user.is_superuser
 
+@login_required
 @user_passes_test(is_admin)
 def assign_bonus(request):
     if request.method == "POST":
-        form = BonusAssignForm(request.POST)
+        form = BonusForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, "Bonus assigned successfully!")
-            return redirect("assign_bonus")
+            return redirect("bonus_list")
     else:
-        form = BonusAssignForm()
+        form = BonusForm()
     return render(request, "bonuses/assign_bonus.html", {"form": form})
+
+@login_required
 @user_passes_test(is_admin)
-def bonus_history(request):
-    bonuses = Bonus.objects.all().order_by("-created_at")
-    return render(request, "bonuses/bonus_history.html", {"bonuses": bonuses})
+def bonus_list(request):
+    bonuses = Bonus.objects.select_related("user").all().order_by("-created_at")
+    return render(request, "bonuses/bonus_list.html", {"bonuses": bonuses})
+
+@login_required
+def user_dashboard(request):
+    bonuses = request.user.bonuses.all().order_by("-created_at")
+    return render(request, "bonuses/user_dashboard.html", {"bonuses": bonuses})
+
 

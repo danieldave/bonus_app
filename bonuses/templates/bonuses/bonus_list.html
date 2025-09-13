@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>All Bonuses</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr><th>User</th><th>Amount</th><th>Status</th><th>Reason</th><th>Date</th></tr>
+    </thead>
+    <tbody>
+      {% for bonus in bonuses %}
+      <tr>
+        <td>{{ bonus.user.username }}</td>
+        <td>{{ bonus.amount }}</td>
+        <td>{{ bonus.status }}</td>
+        <td>{{ bonus.reason }}</td>
+        <td>{{ bonus.created_at|date:"Y-m-d H:i" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

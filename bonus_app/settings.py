@@ -14,8 +14,22 @@ import os
 from pathlib import Path
 import dj_database_url
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+if os.getenv("RAILWAY_ENVIRONMENT"):
+    # Railway deployment
+    DATABASES = {
+        "default": dj_database_url.config(conn_max_age=600, ssl_require=True)
+    }
+else:
+    # Local development (SQLite)
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 
 # Quick-start development settings - unsuitable for production
@@ -143,6 +157,6 @@ SECURE_SSL_REDIRECT = False
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
-LOGIN_REDIRECT_URL = "home"
+LOGIN_REDIRECT_URL = "login_redirect"
 LOGOUT_REDIRECT_URL = "home"
 
